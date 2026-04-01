@@ -16,8 +16,6 @@ A clean, fully client-side inventory management web app built with vanilla HTML,
 2. Open `index.html` in any modern browser (Chrome, Firefox, Edge, Safari).
 3. That's it — no installation, no server needed.
 
-> **Note:** The app uses `localStorage` to save data in your browser. Your inventory persists across page refreshes automatically.
-
 ---
 
 ## Features
