@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StockVault — Inventory Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">StockVault</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="dashboard">
+        <span class="nav-icon">⬡</span> Dashboard
+      </a>
+      <a href="#" class="nav-item" data-page="inventory">
+        <span class="nav-icon">▦</span> Inventory
+      </a>
+      <a href="#" class="nav-item" data-page="add">
+        <span class="nav-icon">⊕</span> Add Item
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <span class="version-tag">v1.0.0</span>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+      </div>
+      <div class="topbar-right">
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input type="text" id="globalSearch" placeholder="Search items..." class="search-input" />
+        </div>
+        <button class="btn-icon" id="themeToggle" title="Toggle theme">◑</button>
+      </div>
+    </header>
+
+    <!-- Pages -->
+
+    <!-- DASHBOARD PAGE -->
+    <section class="page active" id="page-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card" id="stat-total">
+          <div class="stat-label">Total Items</div>
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-sub">across all categories</div>
+        </div>
+        <div class="stat-card accent" id="stat-low">
+          <div class="stat-label">Low Stock</div>
+          <div class="stat-value" id="statLow">0</div>
+          <div class="stat-sub">items need restocking</div>
+        </div>
+        <div class="stat-card" id="stat-cats">
+          <div class="stat-label">Categories</div>
+          <div class="stat-value" id="statCats">0</div>
+          <div class="stat-sub">unique categories</div>
+        </div>
+        <div class="stat-card" id="stat-value">
+          <div class="stat-label">Total Value</div>
+          <div class="stat-value" id="statValue">$0</div>
+          <div class="stat-sub">estimated inventory worth</div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Recent Items</span>
+          </div>
+          <div class="recent-list" id="recentList">
+            <div class="empty-state">No items yet. Add some!</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Low Stock Alerts</span>
+          </div>
+          <div class="alert-list" id="alertList">
+            <div class="empty-state">All stocked up ✓</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INVENTORY PAGE -->
+    <section class="page" id="page-inventory">
+      <div class="toolbar">
+        <div class="filter-row">
+          <select id="filterCategory" class="select-field">
+            <option value="">All Categories</option>
+          </select>
+          <select id="filterStatus" class="select-field">
+            <option value="">All Status</option>
+            <option value="in-stock">In Stock</option>
+            <option value="low-stock">Low Stock</option>
+            <option value="out-of-stock">Out of Stock</option>
+          </select>
+          <select id="sortBy" class="select-field">
+            <option value="name">Sort: Name</option>
+            <option value="qty-asc">Sort: Qty ↑</option>
+            <option value="qty-desc">Sort: Qty ↓</option>
+            <option value="price-asc">Sort: Price ↑</option>
+            <option value="price-desc">Sort: Price ↓</option>
+          </select>
+        </div>
+        <button class="btn-primary" onclick="navigateTo('add')">+ Add Item</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="inv-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>SKU</th>
+              <th>Category</th>
+              <th>Qty</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="inventoryBody">
+            <tr><td colspan="7" class="empty-state">No items found.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ADD / EDIT ITEM PAGE -->
+    <section class="page" id="page-add">
+      <div class="form-card">
+        <div class="form-card-header">
+          <h2 class="form-title" id="formTitle">Add New Item</h2>
+          <p class="form-sub">Fill in the details below to add an item to your inventory.</p>
+        </div>
+        <div class="form-body">
+          <input type="hidden" id="editId" />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Item Name *</label>
+              <input type="text" id="fName" class="form-input" placeholder="e.g. Wireless Keyboard" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">SKU</label>
+              <input type="text" id="fSku" class="form-input" placeholder="e.g. WK-2024" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Category *</label>
+              <input type="text" id="fCategory" class="form-input" placeholder="e.g. Electronics" list="categoryList" />
+              <datalist id="categoryList"></datalist>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Quantity *</label>
+              <input type="number" id="fQty" class="form-input" placeholder="0" min="0" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Unit Price ($) *</label>
+              <input type="number" id="fPrice" class="form-input" placeholder="0.00" min="0" step="0.01" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Low Stock Threshold</label>
+              <input type="number" id="fThreshold" class="form-input" placeholder="5" min="0" />
+            </div>
+          </div>
+
+          <div class="form-group full">
+            <label class="form-label">Description</label>
+            <textarea id="fDesc" class="form-input form-textarea" placeholder="Optional description..."></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn-ghost" onclick="cancelForm()">Cancel</button>
+            <button class="btn-primary" id="submitBtn" onclick="submitForm()">Add Item</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal: Edit / View -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <span class="modal-title" id="modalTitle">Edit Item</span>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
