@@ -76,13 +76,6 @@ To reset the inventory, open your browser's DevTools → Application → Local S
 
 Works in all modern browsers. Requires JavaScript to be enabled.
 
-| Browser | Supported |
-|---|---|
-| Chrome 90+ | ✅ |
-| Firefox 88+ | ✅ |
-| Edge 90+ | ✅ |
-| Safari 14+ | ✅ |
-
 ---
 
 ## Customization
